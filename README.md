@@ -40,5 +40,5 @@ Dual barcode and primer demultiplexing for MinION sequenced reads
                  
 
 ### Requirements
-minibar.py is written in Python version 2.7 and is compatible with Python version 3. It imports the edlib library which
+**minibar.py** is written in Python version 2.7 and is compatible with Python version 3. It imports the edlib library which
 you can install using **pip install edlib** and, if you are interested, its source can be found at https://github.com/Martinsos/edlib. With the requirements of a typical Python installation, the minibar.py source and the edlib module installed, minibar should run on MacOS, Linux and Windows.
