@@ -1,0 +1,1 @@
+This directory contains example test data for minibar. This includes a barcode file and a sequence file.
