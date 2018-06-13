@@ -142,6 +142,7 @@ CGCTTCAATGGGCACGATTACCGCAGCTGCTGGCGCAGACTTGCCCTCCAGTGATCCTCGTTAAGGGAGTTTGGTTATAC
 TCAGTAATTACCAGACTTTATTAAAAAAAGCGGTATTGTTATTTATTGTCACTTCTCCCGTCAATCAGGATTGGGTAATT
 TGCGCGCCTGCtcaccttctttactagtcatggtaatgATCTGGATGGATACagcaatacgtagcttcacg
 ```
+[Display source code](minibar.py)
 
 There's also a diagnostic output, the -D output option, that shows the match info from which they sample is identified. It is not uncommon that several barcodes match within the error tolerance.
 
