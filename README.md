@@ -127,7 +127,21 @@ TGAAATTTCTGGTATAGACTGGCCCATTTTTGAAGTATAGCAGAACTGGCGATGCGGGATGAACACGATCGTGAGGTTAA
 GGTGCCGAATTACGCTCATCAGACACACCACAAGGGTAGTATTTGGTTCATCTAGACAGCAGGACGGTGGCCGTGGAAGT
 CGGGAACCCGCTA
 ```
-The -CC 
+
+The -CC ouput option does case and color. **Do not use this format in downstream processing** since Escape codes are embedded in the output to tell your terminal when to change colors. However, it makes the tagging or the barcode and primer areas easier to see. And importantly it shows that even when a primer is not found, the -T option trims bases of the primer length. 
+
+The case changes are the same as with -C, found barcodes are in blue, found primers in green, and primers that weren't matched are indicated in red. These will primer areas will also be trimmed when using -T.
+
+<pre>
+>2fd798ae-6b00-4b07-9923-47889fca8199 runid=8eea9dccb71575d312e59de22190819144152897 read=69863 ch=467 start_time=2018-04-03T14:42:22Z H-(1,7),h+(1,-1) Jun_38
+atcggtgtacttcgttccggttacgtattgct<span color="blue">GACGTTCCACGCAAC</span>tcgggtgagttgttgctcatagcGGATTTCGAC
+TTCCGCTGACCACCGTCCTGCTGTAATCGATAACGCAGTTGATTATGTACTGGTTCACCGTAACCCAGCTTCCGGTTCAT
+CCCGCATCGCCAGTTCTGCCGCAAAAATATGGCCCGCCGTCTCGATTCCGTGGCGTAGCTCAACGGAGTAATACGCCGTC
+...rest of sequence...
+CGCTTCAATGGGCACGATTACCGCAGCTGCTGGCGCAGACTTGCCCTCCAGTGATCCTCGTTAAGGGAGTTTGGTTATAC
+TCAGTAATTACCAGACTTTATTAAAAAAAGCGGTATTGTTATTTATTGTCACTTCTCCCGTCAATCAGGATTGGGTAATT
+TGCGCGCCTGCtcaccttctttactagtcatggtaatgATCTGGATGGATACagcaatacgtagcttcacg
+</prev>
 
 There's also a diagnostic output, the -D output option, that shows the match info from which they sample is identified. It is not uncommon that several barcodes match within the error tolerance.
 
