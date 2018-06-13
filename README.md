@@ -5,7 +5,7 @@ Minibar is developed for and accompanies the paper:
 \
 <sub>Long-read nanopore sequencing of ribosomal DNA: a portable, cost-effective, phylogenetically robust approach for biodiversity assessments across broad taxonomic scale. Authors: Henrik Krehenwinkel, Aaron Pomerantz, James B. Henderson, Susan R. Kennedy, Jun Ying Lim, Varun Swamy, Juan Diego Shoobridge, Nipam H. Patel, Rosemary G. Gillespie, Stefan Prost</sub>
 
-
+\
 
 
     Usage: minibar.py barcode_file sequence_file [-pct <pct> | -e <int> -E <int>] [-l <int>]
