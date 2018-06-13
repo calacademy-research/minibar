@@ -75,7 +75,6 @@ Another of the records has **H+(2,5),h-(3,-1) Jun_38** appended. The **H+(2,5)**
 Here's the summary line from the above run: `750 seqs: H 750 HH 679 Hh 62 hh 0 IDs 741 Mult_IDs 0 (0.1245s)`
 
 ###Binning Samples into Individual Files
----
 Typically you'll want to group your records by identified sample. This can be done by using the -F option, optionally with -P to use a file prefix other than the "sample_" default. We'll use "Peperomia_" in this example.
 
 <pre>
