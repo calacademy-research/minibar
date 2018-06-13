@@ -146,6 +146,8 @@ TGCGCGCCTGCtcaccttctttactagtcatggtaatgATCTGGATGGATACagcaatacgtagcttcacg
 
 [Show screenshot](Screen Shot 2018-06-13 at 3.02.19 PM.png)
 
+[Show license](LICENSE)
+
 There's also a diagnostic output, the -D output option, that shows the match info from which they sample is identified. It is not uncommon that several barcodes match within the error tolerance.
 
 ### Barcode demultiplex file format
