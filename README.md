@@ -99,6 +99,7 @@ For downstream processing, you'll probably want to trim off the barcode and prim
 \
 `minibar.py IndexCombinationPeperomonia.txt PeperomiaTestSet.fasta -T -F -P Peperomia_`
 
+#### Showing record structure with upper\/lower case
 There are a few other output options that are useful to see what the index portions are; that is, see what the -T option will remove from a sequence. The -C option shows the parts of the sequence using upper\/lower case.
 The parts of the sequence and the case used are:
 ```
@@ -128,6 +129,7 @@ GGTGCCGAATTACGCTCATCAGACACACCACAAGGGTAGTATTTGGTTCATCTAGACAGCAGGACGGTGGCCGTGGAAGT
 CGGGAACCCGCTA
 ```
 
+#### Adding color to the output
 The -CC ouput option does case and color. **Do not use this format in downstream processing** since Escape codes are embedded in the output to tell your terminal when to change colors. However, it makes the tagging or the barcode and primer areas easier to see. And importantly it shows that even when a primer is not found, the -T option trims bases of the primer length. 
 
 The case changes are the same as with -C, found barcodes are in blue, found primers in green, and primers that weren't matched are indicated in red. These red primer areas will also be trimmed when using -T.
