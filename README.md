@@ -159,7 +159,7 @@ The program needs 5 pieces of information for each sample type. These are Sample
 
 There can be a header line. However it and every sample line must have the same number of tab delimited fields.
 
-Here's a simple example with the minimum of 5 tabbed delimited columns:
+Here's a simple example with the minimum of 5 tabbed delimited columns. It is the MinIndexCombinationPeperomonia.txt file in the test data folder.
 ```
 SampleID        FwIndex FwPrimer        RvIndex RvPrimer
 Jun_38  gtatccatccagact GGCTACCACATCYAARGAAGGCAGCAG     gacattccacgcaac TCGGCAGGTGAGTYGTTRCACAYTCCT
