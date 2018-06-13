@@ -58,7 +58,7 @@ Minibar is developed for and accompanies the paper:
 you can install using **pip install edlib** and, if you are interested, its source can be found at https://github.com/Martinsos/edlib. With the requirements of a typical Python installation, the minibar.py source and the edlib module installed, minibar should run on MacOS, Linux and Windows.
 
 ### Examples
-This simply adds the Sample ID and hit quality info to the comment field of each record and saves the results in another Fasta file. Also shown are the headers for the first two Fasta records with the added information in **bold** which you'll need to scroll to the end of the lines to see.
+Following example adds the Sample ID and hit quality info to the comment field of each record and saves the results in another Fasta file we;ve named PeperomiaTestSet_SampleIDs.fa. Also shown are the headers for the first two Fasta records with the added information in **bold** which you'll need to scroll to the end of the lines to see.
 <pre>
 $ minibar.py IndexCombinationPeperomonia.txt PeperomiaTestSet.fasta >PeperomiaTestSet_SampleIDs.fa
 IndexCombinationPeperomonia.txt PeperomiaTestSet.fasta Index edit dist 4, Primer edit dist 11, Search Len 80, Search Method 3, Output Type S
@@ -71,3 +71,20 @@ $ grep "^>" PeperomiaTestSet_SampleIDs.fa -m 2
 The first record has **H-(0,6),H+(0,2) Jun_40** appended to the record header. We can tell from this that the matched sample is named Jun_40. It was identified within the sequence start with a perfectly matched reverse barcode, edit distance 0, followed by a sequence that has edit distance 6 from the 27 base reverse primer, **H-(0,6)**; and at the end of the sequence a perfect match of a forward barcode and a sequence matching the 27 base forward primer with an edit distance of 2, **H+(0,2)**. This record is counted as **HH** in the program's summary line at the end of the run.
 
 Another of the records has **H+(2,5),h-(3,-1) Jun_38** appended. The **H+(2,5)** conveys that within the record start a sequence was found that matched a forward barcode within edit distance 2 followed by a sequence that matched the forward primer with edit distance 5. Within the end of the record, **h-(3,-1)** signals a hit of a sequence matching a reverse barcode with 3 errors; however no sequence matched the 27 base reverse primer within the maximum 11 errors allowed. This primer miss is signaled by the **h** and the **-1** in the parenthesis list of **h-(3,-1)** and this record is counted as **Hh** in the run summary.
+
+Here's the summary line from the above run: `750 seqs: H 750 HH 679 Hh 62 hh 0 IDs 741 Mult_IDs 0 (0.1245s)`
+
+---
+Typically you'll want to group your records by identified sample. This can be done by using the -F option, optionally with -P to use a file prefix other than the "sample_" default. We'll use "Peperomia_" in this example.
+
+<pre>
+$ minibar.py IndexCombinationPeperomonia.txt PeperomiaTestSet.fasta -F -P Peperomia_
+
+$ ls -lh Peperomia_\*fasta
+-rw-r--r--  1 fileowner  staff   911K Jun 13 12:42 Peperomia_Jun_38.fasta
+-rw-r--r--  1 fileowner  staff   683K Jun 13 12:42 Peperomia_Jun_39.fasta
+-rw-r--r--  1 fileowner  staff   909K Jun 13 12:42 Peperomia_Jun_40.fasta
+-rw-r--r--  1 fileowner  staff    33K Jun 13 12:42 Peperomia_unk.fasta
+</pre>
+
+The unidentified, or unknown, records are grouped in the file with \_unk in the sample name position. Also, records identified with multiple samples would be in a file named Peperomia_Multiple_Matches.fasta but this run had none.
