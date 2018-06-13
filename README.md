@@ -101,9 +101,9 @@ For downstream processing, you'll probably want to trim off the barcode and prim
 
 There are a few other output options that are useful to see what the index portions are; that is, see what the -T option will remove from a sequence. The -C option shows the parts of the sequence using upper\/lower case.
 The parts of the sequence and the case used are:
-\
+```
 <before barcode><BARCODE><fwd primer><SEQUENCE><rev primer><BARCODE><after barcode>
-\
+```
 When the -T option is used only the <SEQUENCE> component is retained. Here's an example:
 ```
 >f63b7e16-a9df-40f7-8b9a-f8cb02dd338f runid=8eea9dccb71575d312e59de22190819144152897 read=99638 ch=10 start_time=2018-04-03T13:46:54Z H+(0,5),H-(1,5) Jun_40
