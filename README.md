@@ -70,7 +70,7 @@ $ grep "^>" PeperomiaTestSet_SampleIDs.fa -m 2
 </pre>
 The first record has **H-(0,6),H+(0,2) Jun_40** appended to the record header. We can tell from this that the matched sample is named Jun_40. It was identified within the sequence start with a perfectly matched reverse barcode, 0 errors, followed by a sequence that has edit distance 6 from the 27 base reverse primer, **H-(0,6)**; and at the end of the sequence a perfect match of a forward barcode and a sequence matching the 27 base forward primer with an edit distance of 2, **H+(0,2)**. This record is counted as **HH** in the program's summary line at the end of the run.
 
-Another of the records has **H+(2,5),h-(3,-1) Jun_38** appended. The **H+(2,5)** conveys that within the record start a sequence was found that matched a forward barcode within edit distance 2 followed by a sequence that matched the forward primer with edit distance 5. Within the end of the record, **h-(3,-1)** signals a hit of a sequence matching a reverse barcode with 3 errors; however no sequence matched the 27 base reverse primer within the maximum 11 errors allowed. This primer miss is signaled by lowercase **h**, as well as the **-1**, in the parenthesis list of **h-(3,-1)** and this record is counted as **Hh** in the run summary.
+Another of the records has **H+(2,5),h-(3,-1) Jun_38** appended. The **H+(2,5)** conveys that within the record start a sequence was found that matched a forward barcode within edit distance 2 followed by a sequence that matched the forward primer with edit distance 5. Within the end of the record, **h-(3,-1)** signals a hit of a sequence matching a reverse barcode with 3 errors; however no sequence matched the 27 base reverse primer within the maximum 11 errors allowed. This primer miss is signaled by lowercase **h**, as well as **-1** in the parenthesis list, in **h-(3,-1)** and this record is counted as **Hh** in the run summary.
 
 Here's the summary line from the above run: `750 seqs: H 750 HH 679 Hh 62 hh 0 IDs 741 Mult_IDs 0 (0.1245s)`
 
@@ -92,3 +92,9 @@ Unidentified records are grouped in the file with \_unk in the sample name posit
 
 ---
 There are several ways you can determine what the output will be with the start and end of the sequence when barcodes and primer are found. When nothing is specified, or equivalently the -S option is specified, then the record is left as is, output as a single sequence line.
+
+For downstream processing, you'll probably want to trim off the barcode and primer part of the sequence. This is done for you if you supply the **-T trim option** on the command line.
+
+### Barcode demultiplex file format
+
+The program needs 5 pieces of information for each sample type.
