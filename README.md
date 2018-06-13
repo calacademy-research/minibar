@@ -137,8 +137,22 @@ The case changes are the same as with -C, found barcodes are in blue, found prim
 If you pipe -CC output into less and use its -R option you can move through the output and get a sense of hit barcodes and primers.
 `minibar.py  IndexCombinationPeperomonia.txt PeperomiaTestSet.fasta -CC | less -R`
 
-There's also a diagnostic output, the -D output option, that shows the match info from which they sample is identified. It is not uncommon that several barcodes match within the error tolerance.
+#### Diagnostic output
+There's also a diagnostic output, the -D output option, that shows the match info from which they sample is identified. It is not uncommon that several barcodes match within the error tolerance. Here's output form a different dataset than we have been using that shows you that, as in the first record here, sometimes more than one barcode can be matched. In this of record 1 three forward barcodes are found at the end of the sequence, all of them with 4 errors. When paired with the perfectly matched reverse barcode athe beginning of the sequence, only one of these identifies a sample. In this case sample LRE20.
+```
+1 LRE20   Hh - (0, 'CTCTCGACATTTATC', (29, 43), 5, (44, 69)) + (['CGCTCTGCCAAAGAT', 4, [(4, 16), (4, 17)]], ['AAACAAGTCGCAAAT', 4, [(16, 30)]], ['GAAACGAGGAGAGAG', 4, [(43, 53), (43, 56)]])
+2 unk     Hh - (0, 'CTCGAAATGCGACGC', (28, 42), 2, (43, 67)) + (['GAAACGAGGAGAGAG', 4, [(54, 64), (54, 67)]],)
+3 LRE50   Hh - (2, 'GACATTCCACGCAAC', (27, 42), 3, (43, 71)) + (['GAAACGAGGAGAGAG', 4, [(58, 71)]],)
+4 unk     Hh - (1, 'CTCGAAATGCGACGC', (30, 44), 1, (45, 72)) + (['GAAACGAGGAGAGAG', 4, [(58, 68), (58, 71)]],)
+5 LRE140  HH + (1, 'CCTCACACAATCTCG', (32, 46), 2, (47, 72)) - (0, 'GACATTCCACGCAAC', (16, 30), 0, (31, 57))
+6 LRE50   Hh - (2, 'GACATTCCACGCAAC', (30, 42), 1, (43, 70)) + (['GAAACGAGGAGAGAG', 4, [(54, 64), (54, 67)]],)
+8 unk     Hx - (0, 'CTCTCGACATTTATC', (29, 43), 0, (44, 70)) + ()
+9 FI1     HH - (3, 'AGTGTACGACATGAG', (35, 47), 2, (48, 73)) + (0, 'ACGGAGACCGATGTT', (18, 32), 1, (33, 59))
+10 LRE50  hh - (['CTCTCGACATTTATC', 2, [(19, 34)]], ['GACATTCCACGCAAC', 4, [(25, 37)]]) + (['GAAACGAGGAGAGAG', 4, [(54, 66)]],)
+```
 
 ### Barcode demultiplex file format
 
 The program needs 5 pieces of information for each sample type. These are Sample ID, Forward Barcode index, Forward Primer, Reverse Barcode index, Reverse Primer. Even though the Forward Primer and Reverse Primer are the same for each sample in a run, this format requires them on every line describing a sample's indexes.
+
+There can be a header line. However it and every sample line must have the same number of tab delimited fields.
