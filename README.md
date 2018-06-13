@@ -1,6 +1,8 @@
 # minibar
 Dual barcode and primer demultiplexing for MinION sequenced reads
 
+Minibar is developed for the paper *Long-read nanopore sequencing of ribosomal DNA: a portable, cost-effective, phylogenetically robust approach for biodiversity assessments across broad taxonomic scale. Henrik Krehenwinkel, Aaron Pomerantz, James B. Henderson, Susan R. Kennedy, Jun Ying Lim, Varun Swamy, Juan Diego Shoobridge, Nipam H. Patel, Rosemary G. Gillespie, Stefan Prost*
+
     Usage: minibar.py barcode_file sequence_file [-pct <pct> | -e <int> -E <int>] [-l <int>]
                                                  [-F [-P <prefix>]] [-M 1|2|3]
                                                  [-S | -T | -C | -CC | -D]
@@ -37,8 +39,15 @@ Dual barcode and primer demultiplexing for MinION sequenced reads
         
         -cols <int_list> column position in barcode_file for: sample, fwd index, fwd primer, rev index, rev primer
                  (default: 1,2,3,4,5 if 5 cols; 1,3,4,5,6 if 6 cols; 1,3,4,6,7 if 7 cols; 1,3,5,8,10 if 10 or more cols)
-                 
+                        
+        -info fwd|rev|primer display barcode index or primer info, including edit distances
+        -w  treat duplicates in barcode_file as warning, not error
+        -fh first line of barcode file considered a header (default: auto detect header)
+        -nh first line of barcode file is not a header (default: auto detect header)
 
+        -n <num_seqs> number of sequences to read from file (ex: -n 100)
+        -n <first_seq>,<num_seqs> (ex: -n 102,3)
+                 
 ### Requirements
 **minibar.py** is written in Python version 2.7 and is compatible with Python version 3. It imports the edlib library which
 you can install using **pip install edlib** and, if you are interested, its source can be found at https://github.com/Martinsos/edlib. With the requirements of a typical Python installation, the minibar.py source and the edlib module installed, minibar should run on MacOS, Linux and Windows.
