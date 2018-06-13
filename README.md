@@ -95,8 +95,13 @@ Unidentified records are grouped in the file with \_unk in the sample name posit
 ---
 There are several ways you can determine what the output will be with the start and end of the sequence when barcodes and primer are found. When nothing is specified, or equivalently the -S option is specified, then the record is left as is, output as a single sequence line.
 
-For downstream processing, you'll probably want to trim off the barcode and primer part of the sequence. This is done for you if you supply the **-T trim option** on the command line.
+For downstream processing, you'll probably want to trim off the barcode and primer part of the sequence. This is done for you if you supply the **-T trim option** on the command line. 
+This would be a common usage: minibar.py IndexCombinationPeperomonia.txt PeperomiaTestSet.fasta -T -F -P Peperomia_
+
+There are a few other output options that are useful to see what the index portions are; that is, what the -T option will remove from a sequence. The -C option shows the parts of the sequence using upper\/lower case.
+
+There's also a diagnostic output, the -D output option, that shows the match info from which they sample is identified. It is not uncommon that several barcodes match within the error tolerance.
 
 ### Barcode demultiplex file format
 
-The program needs 5 pieces of information for each sample type.
+The program needs 5 pieces of information for each sample type. These are Sample ID, Forward Barcode index, Forward Primer, Reverse Barcode index, Reverse Primer. Even though the Forward Primer and Reverse Primer are the same for each sample in a run, this format requires them on every line describing a sample's indexes.
