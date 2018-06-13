@@ -144,7 +144,7 @@ TGCGCGCCTGCtcaccttctttactagtcatggtaatgATCTGGATGGATACagcaatacgtagcttcacg
 ```
 [Display source code](minibar.py)
 
-[Show screenshot](Screen Shot 2018-06-13 at 3.02.19 PM.png)
+[Show screenshot](CC_output_example.png)
 
 [Show license](LICENSE)
 
