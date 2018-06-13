@@ -75,7 +75,6 @@ Another of the records has **H+(2,5),h-(3,-1) Jun_38** appended. The **H+(2,5)**
 Here's the summary line from the above run: `750 seqs: H 750 HH 679 Hh 62 hh 0 IDs 741 Mult_IDs 0 (0.1245s)`
 
 ### Binning Samples into Individual Files
----
 Typically you'll want to group your records by identified sample. This can be done by using the -F option, optionally with -P to use a file prefix other than the "sample_" default. We'll use "Peperomia_" in this example.
 
 <pre>
@@ -93,7 +92,7 @@ $ ls -lh Peperomia_\*fasta
 The records are the same as in the first example, they have just been placed in separate files based upon sample ID.
 Unidentified records are grouped in the file with \_unk in the sample name position. Also, records identified with multiple samples will be in a file named <sample_prefix>Multiple_Matches.fasta, where <sample_prefix> is Peperomia_ here, but this run had none.
 
----
+### Sequence Output Options -- Trimming or not
 There are several ways you can determine what the output will be with the start and end of the sequence when barcodes and primer are found. When nothing is specified, or equivalently the -S option is specified, then the record is left as is, output as a single sequence line.
 
 For downstream processing, you'll probably want to trim off the barcode and primer part of the sequence. This is done for you if you supply the **-T trim option** on the command line. The following is an example of what is a common usage:
