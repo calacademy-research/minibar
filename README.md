@@ -104,7 +104,7 @@ The parts of the sequence and the case used are:
 ```
 <before barcode><BARCODE><fwd primer><SEQUENCE><rev primer><BARCODE><after barcode>
 ```
-When the -T option is used only the \<SEQUENCE\> component is retained. Here's an example of the -C output format:
+Here's an example of the -C output format:
 ```
 >f63b7e16-a9df-40f7-8b9a-f8cb02dd338f runid=8eea9dccb71575d312e59de22190819144152897 read=99638 ch=10 start_time=2018-04-03T13:46:54Z H+(0,5),H-(1,5) Jun_40
 tggtatgcttcaagatttcggtgcgtattgctCTGATTAGCCCTTATggctgcatcaaagaaggcagcaGGCGCAAATTA
@@ -115,6 +115,20 @@ TGAAATTTCTGGTATAGACTGGCCCATTTTTGAAGTATAGCAGAACTGGCGATGCGGGATGAACACGATCGTGAGGTTAA
 GGTGCCGAATTACGCTCATCAGACACACCACAAGGGTAGTATTTGGTTCATCTAGACAGCAGGACGGTGGCCGTGGAAGT
 CGGGAACCCGCTAaggagtgtgcaacaactgccgaGGTGCGTGGAATGTCagcaatacgtaaaca
 ```
+
+When the -T option is used only the \<SEQUENCE\> component is retained. The actual -T output is a single line sequence. In the following the sequence is folded as in the above example and we've trimmed as -T output.
+```
+>f63b7e16-a9df-40f7-8b9a-f8cb02dd338f runid=8eea9dccb71575d312e59de22190819144152897 read=99638 ch=10 start_time=2018-04-03T13:46:54Z H+(0,5),H-(1,5) Jun_40
+GGCGCAAATTA
+CGAAATCCCGGCGAGGTAGTGACAATAGAAATAACGTATAGGGAACTGTGGTCTTGGAGATCATTTTAATTTAAATCGCG
+CTAACGAGAACAACTGGAGGCAAAGTCGTTGCCAGCAGCCGCGAGCGAGCTTCCAGCTCCAGTAGCGTATATTAAAGTTG
+...rest of sequence...
+TGAAATTTCTGGTATAGACTGGCCCATTTTTGAAGTATAGCAGAACTGGCGATGCGGGATGAACACGATCGTGAGGTTAA
+GGTGCCGAATTACGCTCATCAGACACACCACAAGGGTAGTATTTGGTTCATCTAGACAGCAGGACGGTGGCCGTGGAAGT
+CGGGAACCCGCTA
+```
+The -CC 
+
 There's also a diagnostic output, the -D output option, that shows the match info from which they sample is identified. It is not uncommon that several barcodes match within the error tolerance.
 
 ### Barcode demultiplex file format
