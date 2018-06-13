@@ -87,4 +87,8 @@ $ ls -lh Peperomia_\*fasta
 -rw-r--r--  1 fileowner  staff    33K Jun 13 12:42 Peperomia_unk.fasta
 </pre>
 
-The unidentified, or unknown, records are grouped in the file with \_unk in the sample name position. Also, records identified with multiple samples will be in a file named <sample_prefix>Multiple_Matches.fasta, where <sample_prefix> is Peperomia_ here, but this run had none.
+The records are the same as in the first example, they have just been placed in separate files based upon sample ID.
+Unidentified records are grouped in the file with \_unk in the sample name position. Also, records identified with multiple samples will be in a file named <sample_prefix>Multiple_Matches.fasta, where <sample_prefix> is Peperomia_ here, but this run had none.
+
+---
+There are several ways you can determine what the output will be with the start and end of the sequence when barcodes and primer are found. When nothing is specified, or equivalently the -S option is specified, then the record is left as is, output as a single sequence line.
