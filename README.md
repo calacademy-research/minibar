@@ -60,9 +60,10 @@ This simply adds the Sample ID and hit quality info to the comment field of each
 $ minibar.py IndexCombinationPeperomonia.txt PeperomiaTestSet.fasta >PeperomiaTestSet_SampleIDs.fa
 IndexCombinationPeperomonia.txt PeperomiaTestSet.fasta Index edit dist 4, Primer edit dist 11, Search Len 80, Search Method 3, Output Type S
 750 seqs: H 750 HH 679 Hh 62 hh 0 IDs 741 Mult_IDs 0 (0.1245s)
-
+```
+<pre>
 $ grep "^>" PeperomiaTestSet_SampleIDs.fa -m 3
->5fcfed05-3207-4f44-bbc8-dd8d62042384 runid=8eea9dccb71575d312e59de22190819144152897 read=24 ch=325 start_time=2018-04-02T23:38:51Z *H-(0,6),H+(0,2) Jun_40_*
+>5fcfed05-3207-4f44-bbc8-dd8d62042384 runid=8eea9dccb71575d312e59de22190819144152897 read=24 ch=325 start_time=2018-04-02T23:38:51Z <b>H-(0,6),H+(0,2) Jun_40_</b>
 >8d745d8e-3d06-4778-81cc-d25dd7f3b3a7 runid=8eea9dccb71575d312e59de22190819144152897 read=25 ch=262 start_time=2018-04-02T23:39:03Z H+(1,1),H-(1,1) Jun_38_
 >53d8f920-6887-4376-ab12-a6358b07f089 runid=8eea9dccb71575d312e59de22190819144152897 read=35 ch=82 start_time=2018-04-02T23:39:03Z H+(1,4),H-(1,0) Jun_40_
-```
+</pre>
