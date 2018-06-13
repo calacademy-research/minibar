@@ -140,7 +140,7 @@ If you pipe -CC output into less and use its -R option you can move through the 
 `minibar.py  IndexCombinationPeperomonia.txt PeperomiaTestSet.fasta -CC | less -R`
 
 #### Diagnostic output
-There's also a diagnostic output, the -D output option, that shows the match info from which they sample is identified. It is not uncommon that several barcodes match within the error tolerance. Here's output form a different dataset than we have been using that shows you that, as in the first record here, sometimes more than one barcode can be matched. In this of record 1 three forward barcodes are found at the end of the sequence, all of them with 4 errors. When paired with the perfectly matched reverse barcode athe beginning of the sequence, only one of these identifies a sample. In this case sample LRE20.
+There's also a diagnostic output, the -D output option, that shows the match info from which the sample is identified. It is not uncommon that several barcodes match within the error tolerance. Here's output from a different dataset than we have been using that shows, as in the first record here, sometimes more than one barcode can be matched. In this record 1, three forward barcodes are found at the end of the sequence, all of them with 4 errors. When paired with the perfectly matched reverse barcode at the beginning of the sequence, only one of these identifies a sample. In this case sample LRE20.
 ```
 1 LRE20   Hh - (0, 'CTCTCGACATTTATC', (29, 43), 5, (44, 69)) + (['CGCTCTGCCAAAGAT', 4, [(4, 16), (4, 17)]], ['AAACAAGTCGCAAAT', 4, [(16, 30)]], ['GAAACGAGGAGAGAG', 4, [(43, 53), (43, 56)]])
 2 unk     Hh - (0, 'CTCGAAATGCGACGC', (28, 42), 2, (43, 67)) + (['GAAACGAGGAGAGAG', 4, [(54, 64), (54, 67)]],)
@@ -158,3 +158,12 @@ There's also a diagnostic output, the -D output option, that shows the match inf
 The program needs 5 pieces of information for each sample type. These are Sample ID, Forward Barcode index, Forward Primer, Reverse Barcode index, Reverse Primer. Even though the Forward Primer and Reverse Primer are the same for each sample in a run, this format requires them on every line describing a sample's indexes.
 
 There can be a header line. However it and every sample line must have the same number of tab delimited fields.
+
+Here's a simple example with the minimum of 5 tabbed delimited columns:
+```
+SampleID        FwIndex FwPrimer        RvIndex RvPrimer
+Jun_38  gtatccatccagact GGCTACCACATCYAARGAAGGCAGCAG     gacattccacgcaac TCGGCAGGTGAGTYGTTRCACAYTCCT
+Jun_39  tatagtatgtccact GGCTACCACATCYAARGAAGGCAGCAG     gacattccacgcaac TCGGCAGGTGAGTYGTTRCACAYTCCT
+Jun_40  ctgattagcccttat GGCTACCACATCYAARGAAGGCAGCAG     gacattccacgcaac TCGGCAGGTGAGTYGTTRCACAYTCCT
+```
+
