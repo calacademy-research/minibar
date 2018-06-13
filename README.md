@@ -55,13 +55,13 @@ Long-read nanopore sequencing of ribosomal DNA: a portable, cost-effective, phyl
 you can install using **pip install edlib** and, if you are interested, its source can be found at https://github.com/Martinsos/edlib. With the requirements of a typical Python installation, the minibar.py source and the edlib module installed, minibar should run on MacOS, Linux and Windows.
 
 ### Examples
-This simply adds the Sample ID and hit quality info to the comment field of each record and save the results in another Fasta file. Also shown are the headers for the first two Fasta records with the added information in **bold**.
+This simply adds the Sample ID and hit quality info to the comment field of each record and saves the results in another Fasta file. Also shown are the headers for the first two Fasta records with the added information in **bold** which you'll need to scroll to the end of the lines to see.
 <pre>
 $ minibar.py IndexCombinationPeperomonia.txt PeperomiaTestSet.fasta >PeperomiaTestSet_SampleIDs.fa
 IndexCombinationPeperomonia.txt PeperomiaTestSet.fasta Index edit dist 4, Primer edit dist 11, Search Len 80, Search Method 3, Output Type S
 750 seqs: H 750 HH 679 Hh 62 hh 0 IDs 741 Mult_IDs 0 (0.1245s)
 
 $ grep "^>" PeperomiaTestSet_SampleIDs.fa -m 2
->5fcfed05-3207-4f44-bbc8-dd8d62042384 runid=8eea9dccb71575d312e59de22190819144152897 read=24 ch=325 start_time=2018-04-02T23:38:51Z <b>H-(0,6),H+(0,2) Jun_40_</b>
->8d745d8e-3d06-4778-81cc-d25dd7f3b3a7 runid=8eea9dccb71575d312e59de22190819144152897 read=25 ch=262 start_time=2018-04-02T23:39:03Z <b>H+(1,1),H-(1,1) Jun_38_</b>
+>5fcfed05-3207-4f44-bbc8-dd8d62042384 runid=8eea9dccb71575d312e59de22190819144152897 read=24 ch=325 start_time=2018-04-02T23:38:51Z <b>H-(0,6),H+(0,2) Jun_40</b>
+>8d745d8e-3d06-4778-81cc-d25dd7f3b3a7 runid=8eea9dccb71575d312e59de22190819144152897 read=25 ch=262 start_time=2018-04-02T23:39:03Z <b>H+(1,1),H-(1,1) Jun_38</b>
 </pre>
