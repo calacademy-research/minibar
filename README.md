@@ -5,7 +5,7 @@ Minibar is developed for and accompanies the paper:
 \
 <sub>Long-read nanopore sequencing of ribosomal DNA: a portable, cost-effective, phylogenetically robust approach for biodiversity assessments across broad taxonomic scale. Authors: Henrik Krehenwinkel, Aaron Pomerantz, James B. Henderson, Susan R. Kennedy, Jun Ying Lim, Varun Swamy, Juan Diego Shoobridge, Nipam H. Patel, Rosemary G. Gillespie, Stefan Prost</sub>
 
-Although as you can see below there are many possible options, minibar defaults are set so a typical run might be:
+Although, as you'll see below there are many possible options, minibar defaults are set so a typical run might be:
 ```
 ./minibar.py -T -F Demultiplex.txt my_sequences.fastq
 ```
