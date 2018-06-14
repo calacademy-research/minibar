@@ -5,10 +5,18 @@ Minibar is developed for and accompanies the paper:
 \
 <sub>Long-read nanopore sequencing of ribosomal DNA: a portable, cost-effective, phylogenetically robust approach for biodiversity assessments across broad taxonomic scale. Authors: Henrik Krehenwinkel, Aaron Pomerantz, James B. Henderson, Susan R. Kennedy, Jun Ying Lim, Varun Swamy, Juan Diego Shoobridge, Nipam H. Patel, Rosemary G. Gillespie, Stefan Prost</sub>
 
-Although as you can see there are many possible options, minibar defaults are set so a typical run might be:
+Although as you can see below there are many possible options, minibar defaults are set so a typical run might be:
 ```
 ./minibar.py -T -F Demultiplex.txt my_sequences.fastq
 ```
+
+### Requirements
+**minibar.py** is written in Python version 2.7 and is compatible with Python version 3. It imports the edlib library which
+you can install using **pip install edlib** and, if you are interested, its source can be found at https://github.com/Martinsos/edlib. 
+
+With the requirements of a typical Python installation, the minibar.py source and the edlib module installed, minibar should run on MacOS, Linux and Windows.
+
+### Usage
 Here are the complete set of options available to you.
   
     Usage: minibar.py barcode_file sequence_file [-pct <pct> | -e <int> -E <int>] [-l <int>]
@@ -57,12 +65,6 @@ Here are the complete set of options available to you.
         -n <num_seqs> number of sequences to read from file (ex: -n 100)
         -n <first_seq>,<num_seqs> (ex: -n 102,3)
                  
-### Requirements
-**minibar.py** is written in Python version 2.7 and is compatible with Python version 3. It imports the edlib library which
-you can install using **pip install edlib** and, if you are interested, its source can be found at https://github.com/Martinsos/edlib. 
-
-With the requirements of a typical Python installation, the minibar.py source and the edlib module installed, minibar should run on MacOS, Linux and Windows.
-
 ### Example
 Following example adds the Sample ID and hit quality info to the comment field of each record and saves the results in another Fasta file we've named PeperomiaTestSet_SampleIDs.fa. Also shown are the headers for the first two Fasta records with the added information in **bold** which you'll need to scroll to the end of the lines to see.
 <pre>
