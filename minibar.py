@@ -157,12 +157,21 @@ def read_barcode_file(primer_filename, ops):
 
     # map index pairs to sample_id. create 2 dicts one with FWIX|RVIX key other with RVIX|FWIX key
     indx2sample_map_fr, indx2sample_map_rf = make_sample_id_maps(primers, SAMPLE, FWIX, RVIX)
-    return len(primers)
+    return primers
 
 
 def display_barcode_file_inf(ops):
-    if len(ops.barcode_file_info) < 1 or not ops.barcode_file_info[0] in 'frp':
+    if len(ops.barcode_file_info) < 1 or not ops.barcode_file_info[0] in 'frpc':
         error('"{}" is an invalid argument for -info'.format(ops.barcode_file_info))
+
+    def display_col_info(primer_list, ops):
+        first = primer_list[0]
+        cols = "Sample name     in col {}:\t{}\n".format(1+ops.sampleix, first[ops.sampleix])
+        cols += "Forward Barcode in col {}:\t{}\n".format(1+ops.fwix, first[ops.fwix])
+        cols += "Forward Primer  in col {}:\t{}\n".format(1+ops.fwprm, first[ops.fwprm])
+        cols += "Reverse barcode in col {}:\t{}\n".format(1+ops.rvix, first[ops.rvix])
+        cols += "Reverse Primer  in col {}:\t{}\n".format(1+ops.rvprm, first[ops.rvprm])
+        print(cols)
 
     def display_index_editdistances(indexes):
         shortest = len_first_index+1; ixlen = len_first_index
@@ -183,7 +192,7 @@ def display_barcode_file_inf(ops):
             print(ln)
         print('\nClosest has edit distance of {} with index lengths of {}, {:.2%} alike'.format(shortest, ixlen, 1-(shortest/ixlen)))
 
-    read_barcode_file(ops.primerfile, ops)
+    primer_list = read_barcode_file(ops.primerfile, ops)
 
     info = ops.barcode_file_info[0]
     if info == 'p':
@@ -192,6 +201,8 @@ def display_barcode_file_inf(ops):
         alike = 1-(dist/len_fwd_primer)
         msg = 'Primers {} {} edit distance {} with lengths of {}, {:.2%} alike'
         print(msg.format(fwd_primer, rev_primer, dist, len_rev_primer, alike))
+    elif info == 'c':  # show cols values for first line 14Jun2018
+        display_col_info(primer_list, ops)
     else:
         indexes = fwd_indexes if info != 'r' else rev_indexes
         display_index_editdistances(indexes)
@@ -724,7 +735,9 @@ def minibar(ops):
 
 
 def version():
-    return "minibar.py version 0.18"  # 0.18 12Jun2018 remove single, tighten file read # 0.17 10Jun2018 -T -w added
+    # 0.19 14Jun2018 -info cols
+    # 0.18 12Jun2018 remove single, tighten file read # 0.17 10Jun2018 -T -w added
+    return "minibar.py version 0.19"
 
 
 def error(errmsg, exit_code=3):
@@ -741,10 +754,11 @@ def usage(show_all_descrips=False):
         "-D diagnostic output, instead of sequence displays edit distances of index and primer matches\n"
 
     secondary_option_descrips = """
-        -info fwd|rev|primer display barcode index or primer info, including edit distances
         -w  treat duplicates in barcode_file as warning, not error
         -fh first line of barcode file considered a header (default: auto detect header)
         -nh first line of barcode file is not a header (default: auto detect header)
+        -info cols show column settings in barcode file and values for the first line
+        -info fwd|rev|primer display barcode index or primer info, including edit distances
 
         -n <num_seqs> number of sequences to read from file (ex: -n 100)
         -n <first_seq>,<num_seqs> (ex: -n 102,3)\n"""
@@ -756,7 +770,7 @@ def usage(show_all_descrips=False):
     Usage: minibar.py barcode_file sequence_file [-pct <pct> | -e <int> -E <int>] [-l <int>]
                                                  [-F [-P <prefix>]] [-M 1|2|3]
                                                  [-S | -T | -C | -CC | -D]
-                                                 [-cols <int_list>] [-info fwd|rev|primer]
+                                                 [-cols <int_list>] [-info cols|fwd|rev|primer]
                                                  [-w] [-fh | -nh] [-n <num_seqs> | -n <first_seq>,<num_seqs>]
 
         Identify MinION sequence by dual barcode indexes and primers.
