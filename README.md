@@ -55,7 +55,9 @@ Minibar is developed for and accompanies the paper:
                  
 ### Requirements
 **minibar.py** is written in Python version 2.7 and is compatible with Python version 3. It imports the edlib library which
-you can install using **pip install edlib** and, if you are interested, its source can be found at https://github.com/Martinsos/edlib. With the requirements of a typical Python installation, the minibar.py source and the edlib module installed, minibar should run on MacOS, Linux and Windows.
+you can install using **pip install edlib** and, if you are interested, its source can be found at https://github.com/Martinsos/edlib. 
+
+With the requirements of a typical Python installation, the minibar.py source and the edlib module installed, minibar should run on MacOS, Linux and Windows.
 
 ### Example
 Following example adds the Sample ID and hit quality info to the comment field of each record and saves the results in another Fasta file we've named PeperomiaTestSet_SampleIDs.fa. Also shown are the headers for the first two Fasta records with the added information in **bold** which you'll need to scroll to the end of the lines to see.
