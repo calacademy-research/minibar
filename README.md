@@ -45,10 +45,10 @@ Minibar is developed for and accompanies the paper:
         -cols <int_list> column position in barcode_file for: sample, fwd index, fwd primer, rev index, rev primer
                  (default: 1,2,3,4,5 if 5 cols; 1,3,4,5,6 if 6 cols; 1,3,4,6,7 if 7 cols; 1,3,5,8,10 if 10 or more cols)
                         
-        -info fwd|rev|primer display barcode index or primer info, including edit distances
         -w  treat duplicates in barcode_file as warning, not error
         -fh first line of barcode file considered a header (default: auto detect header)
         -nh first line of barcode file is not a header (default: auto detect header)
+        -info fwd|rev|primer display barcode index or primer info, including edit distances
 
         -n <num_seqs> number of sequences to read from file (ex: -n 100)
         -n <first_seq>,<num_seqs> (ex: -n 102,3)
