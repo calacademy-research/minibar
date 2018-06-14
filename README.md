@@ -155,7 +155,7 @@ There's also a diagnostic output, the -D output option, that shows the match inf
 
 ### Barcode demultiplex file format
 
-The program needs 5 pieces of information for each sample type. These are (1) Sample ID, (2) Forward Barcode index, (3) Forward Primer, (4) Reverse Barcode index, (5) Reverse Primer. Even though the Forward Primer and Reverse Primer are the same for each sample in a run, this format requires them on every line describing a sample's indexes.
+The program needs 5 pieces of information for each sample type. These are Sample ID, Forward Barcode index, Forward Primer, Reverse Barcode index, Reverse Primer. Even though the Forward Primer and Reverse Primer are the same for each sample in a run, this format requires them on every line describing a sample's indexes.
 
 There can be a header line. However it and every sample line must have the same number of tab delimited fields.
 
@@ -173,4 +173,4 @@ There are in built-in defaults for the assignment of column data to the required
 
 When your barcode file has a different order of columns, you can use the **-col** option to describe this. The default 5 column description of mapping Sample ID, Forward barcode, etc. into column positions is `-col 1,2,3,4,5`
 
-Let's say your 5 column file has the two primers in the first 2 columns and the Sample ID at the end: FwPrimer, RvPrimer, FwIndex, RvIndex, SampleID. Remember we need these data:  (1) Sample ID, (2) Forward Barcode index, (3) Forward Primer, (4) Reverse Barcode index, (5) Reverse Primer. You'd use this setting to describe the file `-col 3,5,2,4,1`
+To make it complicated, let's say your 5 column file has the two primers in the first 2 columns and the Sample ID at the end: FwPrimer, RvPrimer, FwIndex, RvIndex, SampleID. Remember we need these data:  Sample ID, Forward Barcode index, Forward Primer, Reverse Barcode index, Reverse Primer. You'd use this setting to describe the file `-col 5,3,1,4,2` since SampleID is in col 5, FwIndex col 3, FwPrimer col 1, RvIndex col 4, RvPrimer col 2.
