@@ -41,6 +41,7 @@ Minibar is developed for and accompanies the paper:
         -T trims barcode and primer from each end of the sequence, then outputs record
         -C similar to S but uses upper/lower case to show found barcode indexes and primers
         -CC also colors found barcode blue, primer green if found, primer red otherwise
+        -D diagnostic output, instead of sequence displays edit distances of index and primer matches
         
         -cols <int_list> column position in barcode_file for: sample, fwd index, fwd primer, rev index, rev primer
                  (default: 1,2,3,4,5 if 5 cols; 1,3,4,5,6 if 6 cols; 1,3,4,6,7 if 7 cols; 1,3,5,8,10 if 10 or more cols)
