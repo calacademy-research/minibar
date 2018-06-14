@@ -22,13 +22,13 @@ Here are the complete set of options available to you.
     Usage: minibar.py barcode_file sequence_file [-pct <pct> | -e <int> -E <int>] [-l <int>]
                                                  [-F [-P <prefix>]] [-M 1|2|3]
                                                  [-S | -T | -C | -CC | -D]
-                                                 [-cols <int_list>] [-info fwd|rev|primer]
+                                                 [-cols <int_list>] [-info cols|fwd|rev|primer]
                                                  [-w] [-fh | -nh] [-n <num_seqs> | -n <first_seq>,<num_seqs>]
 
         Identify MinION sequence by dual barcode indexes and primers.
         The sequence file can be in Fasta or Fastq format, gzipped or plain text.
         Sample ID is placed at end of header comment with match hit info before it.
-        (minibar.py version 0.18)
+        (minibar.py version 0.19)
 
         Example: ./minibar.py -C -F Demultiplex.txt example.fq
 
@@ -60,6 +60,7 @@ Here are the complete set of options available to you.
         -w  treat duplicates in barcode_file as warning, not error
         -fh first line of barcode file considered a header (default: auto detect header)
         -nh first line of barcode file is not a header (default: auto detect header)
+        -info cols show column settings in barcode file and values for the first line
         -info fwd|rev|primer display barcode index or primer info, including edit distances
 
         -n <num_seqs> number of sequences to read from file (ex: -n 100)
@@ -182,3 +183,26 @@ There are in built-in defaults for the assignment of column data to the required
 When your barcode file has a different order of columns, you can use the **-col** option to describe this. The default 5 column description of mapping Sample ID, Forward barcode, etc. into column positions is `-col 1,2,3,4,5`
 
 To make it complicated, let's say your 5 column file has the two primers in the first 2 columns and the Sample ID at the end: FwPrimer, RvPrimer, FwIndex, RvIndex, SampleID. Remember we need these data:  Sample ID, Forward Barcode index, Forward Primer, Reverse Barcode index, Reverse Primer. You'd use this setting to describe the file `-col 5,3,1,4,2` since SampleID is in col 5, FwIndex col 3, FwPrimer col 1, RvIndex col 4, RvPrimer col 2.
+
+#### Checking barcode file settings
+You can do a quick check to see information about various items in the barcode file. To make sure that the -cols values are what you think they are use **-info cols** as an option. You can add this option to any command line and it will work with just it and the barcode file if you want to check just that.
+
+```
+$ minibar.py IndexCombinationPeperomonia.txt -info cols
+Sample name     in col 1:	Jun_38
+Forward Barcode in col 3:	gtatccatccagact
+Forward Primer  in col 5:	GGCTACCACATCYAARGAAGGCAGCAG
+Reverse barcode in col 8:	gacattccacgcaac
+Reverse Primer  in col 10:	TCGGCAGGTGAGTYGTTRCACAYTCCT
+```
+The **-info** option also lets you see the edit distances between all Forward barcode indexes or all Reverse barcode indexes or the the 2 Primers. This is done with **-info fwd** or **-info rev** or **-info primer** as the option. This can be helpful when designing your own barcodes to make sure they are not too similar.
+
+```
+$ minibar.py IndexCombinationPeperomonia.txt -info fwd
+Indexes 	GTATCCATCCAGACT	TATAGTATGTCCACT	CTGATTAGCCCTTAT
+GTATCCATCCAGACT	0	8	9
+TATAGTATGTCCACT	8	0	9
+CTGATTAGCCCTTAT	9	9	0
+
+Closest has edit distance of 8 with index lengths of 15, 46.67% alike
+```
