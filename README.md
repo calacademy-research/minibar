@@ -204,7 +204,7 @@ Forward Primer  in col 5:	GGCTACCACATCYAARGAAGGCAGCAG
 Reverse barcode in col 8:	gacattccacgcaac
 Reverse Primer  in col 10:	TCGGCAGGTGAGTYGTTRCACAYTCCT
 ```
-The **-info** option also lets you see the edit distances between all Forward barcode indexes or all Reverse barcode indexes or the the two Primers. This is done with **-info fwd** or **-info rev** or **-info primer** as the option. This can be helpful when designing your own barcodes to make sure they are not too similar.
+The **-info** option also lets you see the edit distances between all Forward barcode indexes or all Reverse barcode indexes or between the two Primers. This is done with **-info fwd** or **-info rev** or **-info primer** as the option. This can be helpful when designing your own barcodes to make sure they are not too similar.
 
 ```
 $ minibar.py IndexCombinationPeperomonia.txt -info fwd
