@@ -145,7 +145,7 @@ The -CC output option does case and color. **Do not use this format in downstrea
 
 The case changes are the same as with -C, found barcodes are in blue, found primers in green, and primers that weren't matched are indicated in red. These red primer areas will also be trimmed when using -T.
 
-[Here is a screenshot](CC_output_example.png) of an example of the -CC option output with one found and one missing primer.
+![Here is a screenshot](CC_output_example.png) of an example of the -CC option output with one found and one missing primer.
 
 If you pipe -CC output into less and use its -R option you can move through the output and get a sense of hit barcodes and primers.
 `minibar.py  IndexCombinationPeperomonia.txt PeperomiaTestSet.fasta -CC | less -R`
