@@ -167,7 +167,7 @@ In record 1, three forward barcodes are found at the end of the sequence, all of
 9 FI1     HH - (3, 'AGTGTACGACATGAG', (35, 47), 2, (48, 73)) + (0, 'ACGGAGACCGATGTT', (18, 32), 1, (33, 59))
 10 LRE50  hh - (['CTCTCGACATTTATC', 2, [(19, 34)]], ['GACATTCCACGCAAC', 4, [(25, 37)]]) + (['GAAACGAGGAGAGAG', 4, [(54, 66)]],)
 ```
-Record 7 is an example multiple Sample ID matches.
+Record 7 is an example of multiple matches to Sample IDs.
 
 ### Barcode demultiplex file format
 
