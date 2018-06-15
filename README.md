@@ -160,10 +160,12 @@ There's also a diagnostic output, the -D output option, that shows the match inf
 4 unk     Hh - (1, 'CTCGAAATGCGACGC', (30, 44), 1, (45, 72)) + (['GAAACGAGGAGAGAG', 4, [(58, 68), (58, 71)]],)
 5 LRE140  HH + (1, 'CCTCACACAATCTCG', (32, 46), 2, (47, 72)) - (0, 'GACATTCCACGCAAC', (16, 30), 0, (31, 57))
 6 LRE50   Hh - (2, 'GACATTCCACGCAAC', (30, 42), 1, (43, 70)) + (['GAAACGAGGAGAGAG', 4, [(54, 64), (54, 67)]],)
+7 LRE11 LRA1     Hh + (3, 'CCTTGAGCGCCTCTT', (39, 51), 3, (52, 78)) - (['CTCTCGACATTTATC', 4, [(40, 55)]], ['GTTAACCGCTGTCCC', 4, [(32, 46)]])
 8 unk     Hx - (0, 'CTCTCGACATTTATC', (29, 43), 0, (44, 70)) + ()
 9 FI1     HH - (3, 'AGTGTACGACATGAG', (35, 47), 2, (48, 73)) + (0, 'ACGGAGACCGATGTT', (18, 32), 1, (33, 59))
 10 LRE50  hh - (['CTCTCGACATTTATC', 2, [(19, 34)]], ['GACATTCCACGCAAC', 4, [(25, 37)]]) + (['GAAACGAGGAGAGAG', 4, [(54, 66)]],)
 ```
+Record 7 is an example multiple Sample ID matches.
 
 ### Barcode demultiplex file format
 
