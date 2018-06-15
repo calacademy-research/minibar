@@ -179,6 +179,8 @@ Jun_40  ctgattagcccttat GGCTACCACATCYAARGAAGGCAGCAG     gacattccacgcaac TCGGCAGG
 ```
 The header line is auto-detected by default. You use the -fh option to force the first line to be considered a header. Or, use -nh to indicate the first line is not a header.
 
+Primer sequences can contain, in addition to the nucleotide identifiers ACGT, the IUPAC codes Y or R. In the case of Y, a C or T counts as a match. And for R, A or G counts as a match.  Both primers are assumed to be the same length; consequently, there is one edit distance value used for the primers.  The barcodes are also assumed to be the same length.
+
 #### Assigning columns to their data types
 There are in built-in defaults for the assignment of column data to the required fields. The two example barcode files in the test data folder comform to these defaults. IndexCombinationPeperomonia.txt is organized so that column 1 is Sample ID, col 3 Forward barcode, col 5 Forward Primer, col 8 Reverse barcode, and col 10 Reverse Primer. As shown above, the header of MinIndexCombinationPeperomonia.txt, SampleID FwIndex FwPrimer RvIndex RvPrimer, shows the default order for a 5 column file.
 
