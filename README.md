@@ -3,7 +3,7 @@ Dual barcode and primer demultiplexing for MinION sequenced reads
 
 Minibar is developed for and accompanies the paper:
 \
-<sub>Long-read nanopore sequencing of ribosomal DNA: a portable, cost-effective, phylogenetically robust approach for biodiversity assessments across broad taxonomic scale. Authors: Henrik Krehenwinkel, Aaron Pomerantz, James B. Henderson, Susan R. Kennedy, Jun Ying Lim, Varun Swamy, Juan Diego Shoobridge, Nipam H. Patel, Rosemary G. Gillespie, Stefan Prost</sub>
+<sub><b>Nanopore sequencing of long ribosomal DNA amplicons enables portable and simple biodiversity assessments with high phylogenetic resolution across broad taxonomic scale.<b> Authors: Henrik Krehenwinkel, Aaron Pomerantz, James B. Henderson, Susan R. Kennedy, Jun Ying Lim, Varun Swamy, Juan Diego Shoobridge, Nipam H. Patel, Rosemary G. Gillespie, Stefan Prost</sub>
 
 Although, as you'll see below there are many possible options, minibar defaults are set so a typical run might look like:
 ```
