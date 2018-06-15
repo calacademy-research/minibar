@@ -147,7 +147,7 @@ The case changes are the same as with -C, found barcodes are in blue, found prim
 
 An example of the -CC option output with one found and one missing primer, missing primer is in red.
 ![screenshot in CC_out_example.png](CC_color_hit_example.png)
-If you pipe -CC output into less and use its -R option you can get a sense of hit barcodes and primers. E.g.,
+If you pipe -CC output into less and use its -R option you can get a sense of hit barcodes and primers. For example,
 \
 `minibar.py  IndexCombinationPeperomonia.txt PeperomiaTestSet.fasta -CC | less -R`
 
