@@ -152,7 +152,9 @@ If you pipe -CC output into less and use its -R option you can get a sense of hi
 `minibar.py  IndexCombinationPeperomonia.txt PeperomiaTestSet.fasta -CC | less -R`
 
 #### Diagnostic output
-There's also a diagnostic output, the -D output option, that shows the match info from which the sample is identified. It is not uncommon that several barcodes match within the error tolerance. Here's output from a different dataset than we have been using that shows, as in the first record here, sometimes more than one barcode can be matched. In this record 1, three forward barcodes are found at the end of the sequence, all of them with 4 errors. When paired with the perfectly matched reverse barcode at the beginning of the sequence, only one of these identifies a sample. In this case sample LRE20.
+There's also a diagnostic output, the -D output option, that shows the match info from which the sample is identified. It is not uncommon that several barcodes match within the error tolerance. Here's output from a different dataset than we have been using that shows, as in the first record here, sometimes more than one barcode can be matched.
+
+In record 1, three forward barcodes are found at the end of the sequence, all of them with 4 errors. When paired with the perfectly matched reverse barcode at the beginning of the sequence, only one of these identifies a sample. In this case sample LRE20.
 ```
 1 LRE20   Hh - (0, 'CTCTCGACATTTATC', (29, 43), 5, (44, 69)) + (['CGCTCTGCCAAAGAT', 4, [(4, 16), (4, 17)]], ['AAACAAGTCGCAAAT', 4, [(16, 30)]], ['GAAACGAGGAGAGAG', 4, [(43, 53), (43, 56)]])
 2 unk     Hh - (0, 'CTCGAAATGCGACGC', (28, 42), 2, (43, 67)) + (['GAAACGAGGAGAGAG', 4, [(54, 64), (54, 67)]],)
