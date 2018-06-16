@@ -146,7 +146,7 @@ The -CC output option does case and color. **Do not use this format in downstrea
 The case changes are the same as with -C, found barcodes are in blue, found primers in green, and primers that weren't matched are indicated in red. These red primer areas will also be trimmed when using -T.
 
 An example of the -CC option output with one found and one missing primer, missing primer is in red.
-![screenshot in CC_out_example.png](CC_color_hit_example.png)
+![screenshot in CC_color_hit_example.png](CC_color_hit_example.png)
 If you pipe -CC output into less and use its -R option you can get a sense of hit barcodes and primers. For example,
 \
 `minibar.py  IndexCombinationPeperomonia.txt PeperomiaTestSet.fasta -CC | less -R`
@@ -194,7 +194,7 @@ When your barcode file has a different order of columns, you can use the **-col*
 To make it complicated, let's say your 5 column file has the two primers in the first 2 columns and the Sample ID at the end: FwPrimer, RvPrimer, FwIndex, RvIndex, SampleID. Remember we need these data:  Sample ID, Forward Barcode index, Forward Primer, Reverse Barcode index, Reverse Primer. You'd use this setting to describe the file `-col 5,3,1,4,2` since SampleID is in col 5, FwIndex col 3, FwPrimer col 1, RvIndex col 4, RvPrimer col 2.
 
 #### Checking barcode file settings
-You can do a quick check to see information about various items in the barcode file. To make sure that the -cols values are what you think they are use **-info cols** as an option. You can add this option to any command line and it will work with just it and the barcode file if you want to check just that.
+You can do a quick check to see information about various items in the barcode file. To make sure that the -cols values are what you think they are use **-info cols** as an option. You can add this option to any command line and it will work with just it and the barcode file if you want to check just that. It shows values for the first sample line in the barcode file; so this also lets you check to make sure that the header is handled correctly.
 
 ```
 $ minibar.py IndexCombinationPeperomonia.txt -info cols
