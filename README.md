@@ -16,6 +16,8 @@ you can install using **pip install edlib** and, if you are interested, its sour
 
 With the requirements of a typical Python installation, the minibar.py source and the edlib module installed, minibar has run on MacOS, Linux and Windows machines.
 
+You can download the file using curl or wget from https://raw.githubusercontent.com/calacademy-research/minibar/master/minibar.py and use `chmod 775 minibar.py` to permit execution of the python script.
+
 ### Usage
 Here are the complete set of options available to you.
   
