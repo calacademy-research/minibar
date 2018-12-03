@@ -13,4 +13,4 @@ Improved error handling for sample file
 
 ### Release 0.19 (12Jun2018)
 
-   Added to github 12Jun2018
+   Added minibar.py as release 0.19 to github 12Jun2018
