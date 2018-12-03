@@ -30,7 +30,7 @@ Here are the complete set of options available to you.
         Identify MinION sequence by dual barcode indexes and primers.
         The sequence file can be in Fasta or Fastq format, gzipped or plain text.
         Sample ID is placed at end of header comment with match hit info before it.
-        (minibar.py version 0.19)
+        (minibar.py version 0.21)
 
         Example: ./minibar.py -C -F Demultiplex.txt example.fq
 
@@ -63,7 +63,7 @@ Here are the complete set of options available to you.
         -fh first line of barcode file considered a header (default: auto detect header)
         -nh first line of barcode file is not a header (default: auto detect header)
         -info cols show column settings in barcode file and values for the first line
-        -info fwd|rev|primer display barcode index or primer info, including edit distances
+        -info all|fwd|rev|both|primer display barcode index or primer info, including edit distances
 
         -n <num_seqs> number of sequences to read from file (ex: -n 100)
         -n <first_seq>,<num_seqs> (ex: -n 102,3)
