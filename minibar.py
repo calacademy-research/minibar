@@ -87,6 +87,20 @@ def read_barcode_file(primer_filename, ops):
                 index_map[index] = [i]
         return index_map
 
+    # 02Dec2018 JBH v0.21 use of same index in fwd and reverse won't work for Method 2
+    def check_dup_fwd_rev_index(fwd_indexes, rev_indexes):
+        dup_index = []
+        for f in fwd_indexes:
+            for r in rev_indexes:
+                if f.upper() == r.upper():
+                    dup_index.append(f)
+        if ops.search_method != 1 and len(dup_index) > 0:
+            errstr = "Using same index in forward and reverse lists: " + " ".join(dup_index)
+            report_duplicates = error if ops.search_method == 2 else warning
+            if ops.search_method == 2:
+                errstr = "Not valid for Method 2: " + errstr
+            report_duplicates(errstr)
+
     # make sure ids and index/pairs not blank and not duplicates; and number of cols is the same for each line
     def check_empty_and_dups(primer_list, sampleid_col, fwix_col, rvix_col):
         sample_map = {}; index_pair_map = {}; col_count_map = {}; col_count_first_line = {}
@@ -99,6 +113,9 @@ def read_barcode_file(primer_filename, ops):
                 dup_samples.append([id, i])
             else:
                 sample_map[id] = i
+
+            if fwix_col >= len(p) or rvix_col >= len(p):  # not enough tabbed fields in line
+                error("Not enough tabbed fields in entry {}: {}".format(i+1,p))
 
             fwix = p[fwix_col].upper(); rvix = p[rvix_col].upper()
             ix_pair = fwix + ' | ' + rvix
@@ -149,6 +166,9 @@ def read_barcode_file(primer_filename, ops):
     first_index = primers[0][FWIX]
     len_first_index = len(first_index)
 
+    # 02Dec2018 JBH check to see if same index/barcode used in fwd_indexes and rev_indexes, issue warning
+    check_dup_fwd_rev_index(fwd_indexes, rev_indexes)
+
     # set fwd and rev primer vars
     fwd_primer = primers[0][FWPRM]
     len_fwd_primer = len(fwd_primer)
@@ -161,7 +181,7 @@ def read_barcode_file(primer_filename, ops):
 
 
 def display_barcode_file_inf(ops):
-    if len(ops.barcode_file_info) < 1 or not ops.barcode_file_info[0] in 'frpc':
+    if len(ops.barcode_file_info) < 1 or not ops.barcode_file_info[0] in 'frpcb':
         error('"{}" is an invalid argument for -info'.format(ops.barcode_file_info))
 
     def display_col_info(primer_list, ops):
@@ -204,7 +224,11 @@ def display_barcode_file_inf(ops):
     elif info == 'c':  # show cols values for first line 14Jun2018
         display_col_info(primer_list, ops)
     else:
-        indexes = fwd_indexes if info != 'r' else rev_indexes
+        if info != 'b':
+            indexes = fwd_indexes if info != 'r' else rev_indexes
+        else: # we want 'b'oth indexes combined to see what we have
+            indexes = fwd_indexes.copy()
+            indexes.update(rev_indexes)
         display_index_editdistances(indexes)
 
 
@@ -294,13 +318,26 @@ def rev_comp_py3(nt_str):
     return nt_str.translate(trans_tbl)[::-1]
 
 
-def sample_id_from_indexes(index1, index2):
+# v 0.20 20Nov2018 add 3rd arg to determine which set (reverse or forward) to check first
+# this will support using same index pairs but flipped from forward to reverse to id a sample
+def sample_id_from_indexes(index1, index2, check_rev_first=None):
     key = index1 + '|' + index2
-    if key in indx2sample_map_fr:
-        return indx2sample_map_fr[key]
-    elif key in indx2sample_map_rf:
-        return indx2sample_map_rf[key]
+    map_one = indx2sample_map_fr
+    map_two = indx2sample_map_rf
+    if check_rev_first:
+        map_one, map_two = map_two, map_one
+
+    if key in map_one:
+        return map_one[key]
+    elif key in map_two:
+        return map_two[key]
     return ''
+
+#    if key in indx2sample_map_fr:
+#        return indx2sample_map_fr[key]
+#    elif key in indx2sample_map_rf:
+#        return indx2sample_map_rf[key]
+#    return ''
 
 
 def ids_from_index_matches(ind_match_1, ind_match_2):
@@ -466,7 +503,7 @@ def search_sequence_list(seq_number, rec_seqs, rec_hdrs, rec_quals, ops, fh_map)
                             best_score = score
                         if not best_im:
                             best_im = im
-                        id = sample_id_from_indexes(ix1, im[0])
+                        id = sample_id_from_indexes(ix1, im[0], strand == '-')
                         if id != '':
                             ID_matches += 1
                             all_ids += id + ' '
@@ -477,7 +514,7 @@ def search_sequence_list(seq_number, rec_seqs, rec_hdrs, rec_quals, ops, fh_map)
                     ix2_loc = best_im[2][0]
                     strength = 'Hh'
                     ed2 = '({},-1)'.format(best_im[1])  # score
-            sample_id = sample_id_from_indexes(ix1, ix2) if ID_matches <= 1 else all_ids.strip()
+            sample_id = sample_id_from_indexes(ix1, ix2, strand == '-') if ID_matches <= 1 else all_ids.strip()
             if sample_id != '': samps += 1
             else: sample_id = unknown_id
             if ID_matches > 1: mult_ids += 1
@@ -735,9 +772,11 @@ def minibar(ops):
 
 
 def version():
+    # 0.21 02Dec2018 -info both added, for same index in fwd and rev lists: err Method 2, warn Method 3, silent Method 1
+    # 0.20 20Nov2018 sample_id_from_indexes() 3rd arg to swap indexes btw fwd/rev so same index in rev fwd works
     # 0.19 14Jun2018 -info cols
     # 0.18 12Jun2018 remove single, tighten file read # 0.17 10Jun2018 -T -w added
-    return "minibar.py version 0.19"
+    return "minibar.py version 0.21"
 
 
 def error(errmsg, exit_code=3):
@@ -758,7 +797,7 @@ def usage(show_all_descrips=False):
         -fh first line of barcode file considered a header (default: auto detect header)
         -nh first line of barcode file is not a header (default: auto detect header)
         -info cols show column settings in barcode file and values for the first line
-        -info fwd|rev|primer display barcode index or primer info, including edit distances
+        -info fwd|rev|both|primer display barcode index or primer info, including edit distances
 
         -n <num_seqs> number of sequences to read from file (ex: -n 100)
         -n <first_seq>,<num_seqs> (ex: -n 102,3)\n"""
