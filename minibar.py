@@ -181,7 +181,7 @@ def read_barcode_file(primer_filename, ops):
 
 
 def display_barcode_file_inf(ops):
-    if len(ops.barcode_file_info) < 1 or not ops.barcode_file_info[0] in 'frpcb':
+    if len(ops.barcode_file_info) < 1 or not ops.barcode_file_info[0] in 'frpcba':
         error('"{}" is an invalid argument for -info'.format(ops.barcode_file_info))
 
     def display_col_info(primer_list, ops):
@@ -215,7 +215,7 @@ def display_barcode_file_inf(ops):
     primer_list = read_barcode_file(ops.primerfile, ops)
 
     info = ops.barcode_file_info[0]
-    if info == 'p':
+    if info == 'p' or info == 'a':
         result = edlib.align(fwd_primer, rev_primer, task='path', additionalEqualities=YR_maps)
         dist = result['editDistance']
         alike = 1-(dist/len_fwd_primer)
@@ -223,8 +223,8 @@ def display_barcode_file_inf(ops):
         print(msg.format(fwd_primer, rev_primer, dist, len_rev_primer, alike))
     elif info == 'c':  # show cols values for first line 14Jun2018
         display_col_info(primer_list, ops)
-    else:
-        if info != 'b':
+    if info in 'frba':
+        if info != 'b' and info != 'a':
             indexes = fwd_indexes if info != 'r' else rev_indexes
         else: # we want 'b'oth indexes combined to see what we have
             indexes = fwd_indexes.copy()
@@ -797,7 +797,7 @@ def usage(show_all_descrips=False):
         -fh first line of barcode file considered a header (default: auto detect header)
         -nh first line of barcode file is not a header (default: auto detect header)
         -info cols show column settings in barcode file and values for the first line
-        -info fwd|rev|both|primer display barcode index or primer info, including edit distances
+        -info all|fwd|rev|both|primer display barcode index or primer info, including edit distances
 
         -n <num_seqs> number of sequences to read from file (ex: -n 100)
         -n <first_seq>,<num_seqs> (ex: -n 102,3)\n"""
