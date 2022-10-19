@@ -1,3 +1,13 @@
+### Release 0.23 (19Oct2022)
+
+Fix problem with multiple sample named files
+
+
+### Release 0.22 (31Mar2020)
+
+Add 0 method to identify sample from even a forward barcode (any port in a storm)
+
+
 ### Release 0.21 (03Dec2018)
 
 Sensitive to use of same barcode/index in forward and reverse lists:
