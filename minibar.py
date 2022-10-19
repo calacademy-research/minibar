@@ -15,6 +15,7 @@ def read_barcode_file(primer_filename, ops):
     global len_first_index
     global fwd_primer, len_fwd_primer, rev_primer, len_rev_primer
     global indx2sample_map_fr, indx2sample_map_rf
+    global fwdonly_sampleID # for method 0 which only requires a single forward barcode
 
     # read the primer file contents into a list
     def read_primer_list(primer_filename):
@@ -64,14 +65,16 @@ def read_barcode_file(primer_filename, ops):
     # uniquely define the Sample. we use 2 maps so we don't care if the
     # first index found is the forward or reverse index.
     def make_sample_id_maps(primer_list, sampleid_col, fwix_col, rvix_col):
-        fwixmap = {}; rvixmap = {}
+        fwixmap = {}; rvixmap = {}; fwdonly_ids = {}
         for p in primer_list:
             id = p[sampleid_col].strip()
             if id == "": continue
             fwix = p[fwix_col].upper(); rvix = p[rvix_col].upper()
             fwixmap[fwix + '|' + rvix] = id
             rvixmap[rvix + '|' + fwix] = id
-        return fwixmap, rvixmap
+            if not fwix in fwdonly_ids: # for method 0 remember the first sample associated with the forward index
+                fwdonly_ids[fwix] = id
+        return fwixmap, rvixmap, fwdonly_ids
 
     # (fwd and rv) index will occur multiple times in the primer_list
     # this will make a dictionary entry for each unique index found at ix_col.
@@ -86,6 +89,17 @@ def read_barcode_file(primer_filename, ops):
             else:  # first time seeing this index
                 index_map[index] = [i]
         return index_map
+    
+    def check_method_0_dups():
+        if not ops.search_method == 0:
+            return
+        dup = 0
+        for fwix in fwdonly_sampleID:
+            if len(fwd_indexes[fwix]) > 1:
+                if dup==0: print("", file=sys.stderr)
+                dup += 1
+                print("Index '{}' occurs with multiple samples. Method 0 output is for sample '{}'.".format(fwix, fwdonly_sampleID[fwix]), file=sys.stderr)
+        if dup: print("", file=sys.stderr)
 
     # 02Dec2018 JBH v0.21 use of same index in fwd and reverse won't work for Method 2
     def check_dup_fwd_rev_index(fwd_indexes, rev_indexes):
@@ -176,7 +190,8 @@ def read_barcode_file(primer_filename, ops):
     len_rev_primer = len(rev_primer)
 
     # map index pairs to sample_id. create 2 dicts one with FWIX|RVIX key other with RVIX|FWIX key
-    indx2sample_map_fr, indx2sample_map_rf = make_sample_id_maps(primers, SAMPLE, FWIX, RVIX)
+    indx2sample_map_fr, indx2sample_map_rf, fwdonly_sampleID = make_sample_id_maps(primers, SAMPLE, FWIX, RVIX)
+    check_method_0_dups() # 09Apr2020 flag as ambiguous dup fwd barcodes/indexes if using Method
     return primers
 
 
@@ -444,14 +459,14 @@ def search_for_best_index(seq, skip_fwdchk=False):
 # of the sequence. the complementary pair at the other end is best find, but if that
 # is not there then we use complementary matched indexes to determine sample IDs
 def search_sequence_list(seq_number, rec_seqs, rec_hdrs, rec_quals, ops, fh_map):
-    global H, HH, Hh, hh, samps, mult_ids
+    global H, HH, Hh, hh, hx, samps, mult_ids
 
     USE_FWD_INDEXES = True; USE_REV_INDEXES = False
-    HH_method = 1; hh_method = 2; Hh_method = 3
+    HH_method = 1; hh_method = 2; Hh_method = 3; single_h_method = 0  # add 0 method 31Mar2020
     unknown_id = 'unk'
     outtype = ops.output
     search_method = ops.search_method
-    assert(search_method in [HH_method, Hh_method, hh_method])
+    assert(search_method in [HH_method, Hh_method, hh_method, single_h_method])
     show_color = ops.show_color
 
     seq_ix = -1
@@ -463,7 +478,7 @@ def search_sequence_list(seq_number, rec_seqs, rec_hdrs, rec_quals, ops, fh_map)
         ix1_loc = prm1_loc = ix2_loc = prm2_loc = rslt = None
 
         strand = '?'  # easy way to shoehorn in new method without deeper indentation
-        if search_method != hh_method:
+        if not search_method in [hh_method, single_h_method]:   # replaced search_method != hh_method
             rslt = search_for_best_index(fseq)  # looking for a good match of an index close to a primer
             strand = rslt[0]
 
@@ -518,7 +533,7 @@ def search_sequence_list(seq_number, rec_seqs, rec_hdrs, rec_quals, ops, fh_map)
             if sample_id != '': samps += 1
             else: sample_id = unknown_id
             if ID_matches > 1: mult_ids += 1
-        elif search_method == hh_method or search_method == Hh_method:
+        elif search_method in [hh_method, Hh_method, single_h_method]: # replaced search_method == hh_method or search_method == Hh_method
             strand2 = '?'
             ed1 = '(-1)'; ed2 = '(-1)'
             rcrslt = (-1, '', (), -1, ())
@@ -557,8 +572,27 @@ def search_sequence_list(seq_number, rec_seqs, rec_hdrs, rec_quals, ops, fh_map)
                 sample_id = " ".join(all_id_list)
                 if len(all_id_list) > 1:
                     mult_ids += 1
+                    ID_matches = len(all_id_list) # 19Oct2022 was causing mult ID named files in this scenario
                 ix1_loc = rslt[1][2][0]
                 ix2_loc = rcrslt[1][2][0]
+            elif search_method == single_h_method and beg_fwd: # hx or xh  # remove beg_rev for now
+                # 26Mar2020 implement any port in a storm mode, which lets us grab onto any found index
+                # min = a if a < b else b
+                samps += 1
+                beg_matched = beg_fwd if beg_fwd else beg_rev
+                ixseq = beg_matched[0][0]
+                sample_id = fwdonly_sampleID[ixseq] if ixseq in fwdonly_sampleID else "unk"
+                hx += 1
+                if beg_fwd:
+                    strand = '+'; strand2 = '-'
+                    strength = "hx"
+                    ed1 = '({})'.format(beg_matched[0][1])
+                else:
+                    strand = '-'; strand2 = '+'
+                    strength = "xh"
+                    ed2 = '({})'.format(beg_matched[0][1])
+                rslt = (strand,) + tuple(beg_matched)
+                ix1_loc = rslt[1][2][0]
             else:
                 strand = 'x'; strand2 = 'x'  # report total misses as x(-1), x(-1) not ?(-1), ?(-1)
                 sample_id = unknown_id
@@ -703,7 +737,7 @@ def get_sample_fh(sampID, fh_map, prefix, isfastq):
 
 
 def minibar(ops):
-    global H, HH, Hh, hh, samps, mult_ids
+    global H, HH, Hh, hh, hx, samps, mult_ids
     global rec_seqs, rec_hdrs, rec_quals
     global max_dist_index, max_dist_primer, max_search_area
 
@@ -723,7 +757,7 @@ def minibar(ops):
     max_dist_index  = ixed if (ixed >= 1) else len_first_index - int(len_first_index * ixed)
     max_dist_primer = int(len_fwd_primer * 0.3 + 3) if ops.primer_edit_distance==-1 else ops.primer_edit_distance
 
-    info_msg = '{} {} Index edit dist {}, Primer edit dist {}, Search Len {}, Search Method {}, Output Type {}'
+    info_msg = '{} {} : Index edit dist {}, Primer edit dist {}, Search Len {}, Search Method {}, Output Type {}'
     print(info_msg.format(ops.primerfile, ops.sequencefile, max_dist_index, max_dist_primer,
                                      max_search_area, ops.search_method, ops.output_letter), file=sys.stderr)
 
@@ -740,7 +774,7 @@ def minibar(ops):
         rec_seqs = []; rec_hdrs = []; rec_quals = []
         seq_num = load_seqrecs(fh, throwaway)
 
-    H = 0; HH = 0; Hh = 0; hh = 0; samps = 0; mult_ids = 0
+    H = 0; HH = 0; Hh = 0; hh = 0; hx = 0; samps = 0; mult_ids = 0
 
     while all_seqs or seq_num < last_seq_to_output:
         to_read = sequence_block_size if all_seqs else min(sequence_block_size, last_seq_to_output-seq_num)
@@ -758,6 +792,8 @@ def minibar(ops):
         hits = 'H {} HH {} Hh {}'.format(H, HH, Hh)
     elif ops.search_method == 2:
         hits = 'hh {}'.format(hh)
+    elif ops.search_method == 0:  # 09Apr2020 assigns based on finding forward index alone if nothing works
+        hits = 'H {} HH {} Hh {} hh {} hx {}'.format(H, HH, Hh, hh, hx)
     else:  # method 3
         hits = 'H {} HH {} Hh {} hh {}'.format(H, HH, Hh, hh)
 
@@ -772,11 +808,13 @@ def minibar(ops):
 
 
 def version():
+    # 0.23 19Oct2022 fix problem with multiple sample named files
+    # 0.22 31Mar2020 add 0 method to identify sample from even a forward barcode (any port in a storm)
     # 0.21 02Dec2018 -info both added, for same index in fwd and rev lists: err Method 2, warn Method 3, silent Method 1
     # 0.20 20Nov2018 sample_id_from_indexes() 3rd arg to swap indexes btw fwd/rev so same index in rev fwd works
     # 0.19 14Jun2018 -info cols
     # 0.18 12Jun2018 remove single, tighten file read # 0.17 10Jun2018 -T -w added
-    return "minibar.py version 0.21"
+    return "minibar.py version 0.23"
 
 
 def error(errmsg, exit_code=3):
@@ -834,6 +872,7 @@ def usage(show_all_descrips=False):
                    and barcodes matched at the other end are used to identify sample IDs
                  2 finds matched barcodes on both ends of sequence, identifies pairs that match a sample ID
                  3 uses Method 1 and if it does not succeed, uses Method 2
+                (0 identify sample ID even if only one barcode found -- ambiguous if barcodes not unique)
 
         -S outputs sequence record in fasta or fastq format of input (default output)
         -T trims barcode and primer from each end of the sequence, then outputs record
@@ -995,7 +1034,7 @@ def getoptions(argv):
                 elif op == 'P':
                     opts.output_file_prefix = val
                 elif op == 'M':
-                    opts.search_method = int(val) if int(val) in [1,2,3] else 1
+                    opts.search_method = int(val) if int(val) in [1,2,3,0] else 1
             else:
                 unrecog = arg
                 break
