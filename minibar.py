@@ -231,7 +231,7 @@ def display_barcode_file_inf(ops):
 
     info = ops.barcode_file_info[0]
     if info == 'p' or info == 'a':
-        result = edlib.align(fwd_primer, rev_primer, task='path', additionalEqualities=YR_maps)
+        result = edlib.align(fwd_primer, rev_primer, task='path', additionalEqualities=IUPAC_maps)
         dist = result['editDistance']
         alike = 1-(dist/len_fwd_primer)
         msg = 'Primers {} {} edit distance {} with lengths of {}, {:.2%} alike'
@@ -367,9 +367,14 @@ def ids_from_index_matches(ind_match_1, ind_match_2):
     return id_list
 
 
-YR_maps = [("Y", "C"), ("Y", "T"), ("R", "A"), ("R", "G")]
+# 06Dec2022 add N and other IUPAC codes that might be in a primer to YR, 2 base ones WSMK
+IUPAC_maps = [("Y", "C"), ("Y", "T"), ("R", "A"), ("R", "G"),
+              ("N", "A"), ("N", "C"), ("N", "G"), ("N", "T"),
+              ("W", "A"), ("W", "T"), ("M", "A"), ("M", "C"),
+              ("S", "C"), ("S", "G"), ("K", "G"), ("K", "T")]
+
 def primer_positions(seq, primer):
-    rs = edlib.align(primer, seq, 'HW', 'locations', max_dist_primer, additionalEqualities=YR_maps)
+    rs = edlib.align(primer, seq, 'HW', 'locations', max_dist_primer, additionalEqualities=IUPAC_maps)
     return rs['editDistance'], rs['locations']
 
 
@@ -808,13 +813,14 @@ def minibar(ops):
 
 
 def version():
+    # 0.24 06Dec2022 add N and other IUPAC codes that might be in a primer to YR, 2 base ones WSMK
     # 0.23 19Oct2022 fix problem with multiple sample named files
     # 0.22 31Mar2020 add 0 method to identify sample from even a forward barcode (any port in a storm)
     # 0.21 02Dec2018 -info both added, for same index in fwd and rev lists: err Method 2, warn Method 3, silent Method 1
     # 0.20 20Nov2018 sample_id_from_indexes() 3rd arg to swap indexes btw fwd/rev so same index in rev fwd works
     # 0.19 14Jun2018 -info cols
     # 0.18 12Jun2018 remove single, tighten file read # 0.17 10Jun2018 -T -w added
-    return "minibar.py version 0.23"
+    return "minibar.py version 0.24"
 
 
 def error(errmsg, exit_code=3):
