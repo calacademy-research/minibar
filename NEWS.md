@@ -1,3 +1,8 @@
+### Release 0.24 (06Dec2022)
+
+Allow N and other IUPAC codes that might be in a primer to Y and R, specifically 2 base ones W, S, M, K
+
+
 ### Release 0.23 (19Oct2022)
 
 Fix problem with multiple sample named files
