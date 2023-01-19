@@ -675,6 +675,8 @@ def make_display_seq(seq, ix1_loc, prm1_loc, ix2_loc, prm2_loc, show_colors = Fa
 
     if prm1_loc:
         prm1_beg = prm1_loc[0]
+        if prm1_beg < ix1_end and prm1_beg >= ix1_beg:  # 18Jan2023 BUG FIX:
+            ix1_end = prm1_beg  # if primer match overlaps index, reduce index end so it does not
         prm1_end = prm1_loc[1]
         if show_colors: clr_prm1 = green
     else:
@@ -813,6 +815,7 @@ def minibar(ops):
 
 
 def version():
+    # 0.25 18Jan2023 fix -C -CC problem when fwd index match shorter than actual index and overlaps with primer
     # 0.24 06Dec2022 add N and other IUPAC codes that might be in a primer to YR, 2 base ones WSMK
     # 0.23 19Oct2022 fix problem with multiple sample named files
     # 0.22 31Mar2020 add 0 method to identify sample from even a forward barcode (any port in a storm)
@@ -820,7 +823,7 @@ def version():
     # 0.20 20Nov2018 sample_id_from_indexes() 3rd arg to swap indexes btw fwd/rev so same index in rev fwd works
     # 0.19 14Jun2018 -info cols
     # 0.18 12Jun2018 remove single, tighten file read # 0.17 10Jun2018 -T -w added
-    return "minibar.py version 0.24"
+    return "minibar.py version 0.25"
 
 
 def error(errmsg, exit_code=3):
